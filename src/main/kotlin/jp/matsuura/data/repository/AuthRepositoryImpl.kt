@@ -1,7 +1,5 @@
 package jp.matsuura.data.repository
 
-import jp.matsuura.data.entity.Token
-import jp.matsuura.data.entity.Tokens
 import jp.matsuura.data.entity.User
 import jp.matsuura.data.entity.Users
 import org.jetbrains.exposed.sql.ResultRow
@@ -24,17 +22,6 @@ class AuthRepositoryImpl : AuthRepository {
                 it[password] = user.password
                 it[createdAt] = user.createdAt
                 it[updatedAt] = user.updatedAt
-            }
-        }
-    }
-
-    override fun insertToken(token: Token) {
-        transaction {
-            Tokens.insert {
-                it[email] = token.email
-                it[refreshToken] = token.refreshToken
-                it[createdAt] = token.createdAt
-                it[updatedAt] = token.updatedAt
             }
         }
     }

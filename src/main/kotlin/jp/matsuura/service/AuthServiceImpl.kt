@@ -1,6 +1,5 @@
 package jp.matsuura.service
 
-import jp.matsuura.data.entity.Token
 import jp.matsuura.data.entity.User
 import jp.matsuura.data.repository.AuthRepository
 import jp.matsuura.model.JwtInfo
@@ -11,7 +10,6 @@ import jp.matsuura.utility.CommonUtils
 import jp.matsuura.utility.Const
 import jp.matsuura.utility.JwtUtils
 import jp.matsuura.utility.Result
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.joda.time.DateTime
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -40,10 +38,17 @@ class AuthServiceImpl : AuthService, KoinComponent {
             secret = jwtInfo.secret,
         )
 
+        val refreshToken = JwtUtils.generateRefreshToken(
+            audience = jwtInfo.audience,
+            issuer = jwtInfo.issuer,
+            email = email,
+            secret = jwtInfo.secret,
+        )
+
         val response = AuthResponse(
             message = Const.OK,
             accessToken = accessToken,
-            refreshToken = "refreshToken"
+            refreshToken = refreshToken,
         )
         return Result.Success(value = response)
     }
@@ -73,7 +78,12 @@ class AuthServiceImpl : AuthService, KoinComponent {
             secret = jwtInfo.secret,
         )
 
-        val refreshToken = "refreshToken"
+        val refreshToken = JwtUtils.generateRefreshToken(
+            audience = jwtInfo.audience,
+            issuer = jwtInfo.issuer,
+            email = email,
+            secret = jwtInfo.secret,
+        )
 
         val insertUserData = User(
             email = email,
@@ -82,17 +92,7 @@ class AuthServiceImpl : AuthService, KoinComponent {
             updatedAt = DateTime.now(),
         )
 
-        val insertTokenData = Token(
-            email = email,
-            refreshToken = refreshToken,
-            createdAt = DateTime.now(),
-            updatedAt = DateTime.now(),
-        )
-
-        transaction {
-            authRepository.insertUser(insertUserData)
-            authRepository.insertToken(insertTokenData)
-        }
+        authRepository.insertUser(insertUserData)
 
         val response = AuthResponse(
             message = Const.OK,
