@@ -1,4 +1,4 @@
-package jp.matsuura.data
+package jp.matsuura.data.entity
 
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.jodatime.datetime

@@ -1,4 +1,4 @@
-package jp.matsuura.model
+package jp.matsuura.model.response
 
 data class AuthResponse(
     val message: String,

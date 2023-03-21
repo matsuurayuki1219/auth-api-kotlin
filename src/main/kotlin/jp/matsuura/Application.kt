@@ -11,6 +11,8 @@ import io.ktor.server.tomcat.*
 import jp.matsuura.controller.authController
 import jp.matsuura.controller.testController
 import jp.matsuura.controller.userController
+import jp.matsuura.data.Migration
+import jp.matsuura.di.authRepositoryModule
 import jp.matsuura.di.authServiceModule
 import org.koin.ktor.plugin.Koin
 import java.text.DateFormat
@@ -27,7 +29,7 @@ fun Application.module() {
         userController()
     }
     install(Koin) {
-        modules(authServiceModule)
+        modules(authServiceModule, authRepositoryModule)
     }
     install(ContentNegotiation) {
         jackson {
@@ -37,4 +39,5 @@ fun Application.module() {
             dateFormat = DateFormat.getDateInstance()
         }
     }
+    Migration()
 }

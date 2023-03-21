@@ -36,12 +36,8 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-dao:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
-    implementation("org.jetbrains.exposed: exposed-java-time:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-jodatime:$exposed_version")
     implementation("mysql:mysql-connector-java:8.0.32")
-
-    // location
-    implementation("io.ktor:ktor-server-locations:$ktor_version")
 
     // jackson
     implementation("io.ktor:ktor-server-content-negotiation:$ktor_version")
