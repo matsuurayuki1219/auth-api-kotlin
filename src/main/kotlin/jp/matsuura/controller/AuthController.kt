@@ -9,6 +9,8 @@ import io.ktor.server.routing.post
 import jp.matsuura.model.response.ErrorResponse
 import jp.matsuura.model.request.LoginRequest
 import jp.matsuura.model.error.LoginErrorType
+import jp.matsuura.model.error.RegisterErrorType
+import jp.matsuura.model.request.RegisterRequest
 import jp.matsuura.service.AuthService
 import jp.matsuura.utility.MessageCode
 import org.koin.ktor.ext.inject
@@ -46,6 +48,46 @@ fun Routing.authController() {
                         val code = MessageCode.ES01_003
                         val message = MessageCode.MessageMap[code] ?: ""
                         call.respond(HttpStatusCode.Unauthorized, ErrorResponse(code = code, message = message))
+                    }
+                }
+
+            }
+        }
+    }
+
+    post("/auth/register") {
+        val request = call.receive<RegisterRequest>()
+        val email = request.email
+        val password = request.password
+        val result = authService.register(
+            email = email,
+            password = password,
+        )
+        when (result) {
+            is Result.Success -> {
+                call.respond(result.value)
+            }
+            is Result.Failure -> {
+                when (result.error) {
+                    RegisterErrorType.AlreadyExistedUser -> {
+                        val code = MessageCode.ES02_001
+                        val message = MessageCode.MessageMap[code] ?: ""
+                        call.respond(HttpStatusCode.Conflict, ErrorResponse(code = code, message = message))
+                    }
+                    RegisterErrorType.EmailValidationError -> {
+                        val code = MessageCode.ES02_002
+                        val message = MessageCode.MessageMap[code] ?: ""
+                        call.respond(HttpStatusCode.BadRequest, ErrorResponse(code = code, message = message))
+                    }
+                    RegisterErrorType.PasswordValidationError -> {
+                        val code = MessageCode.ES02_003
+                        val message = MessageCode.MessageMap[code] ?: ""
+                        call.respond(HttpStatusCode.BadRequest, ErrorResponse(code = code, message = message))
+                    }
+                    RegisterErrorType.UnknownError -> {
+                        val code = MessageCode.ES02_004
+                        val message = MessageCode.MessageMap[code] ?: ""
+                        call.respond(HttpStatusCode.InternalServerError, ErrorResponse(code = code, message = message))
                     }
                 }
 
