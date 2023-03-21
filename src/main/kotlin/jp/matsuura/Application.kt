@@ -15,12 +15,12 @@ import jp.matsuura.di.authServiceModule
 import org.koin.ktor.plugin.Koin
 import java.text.DateFormat
 
-fun main() {
-    embeddedServer(Tomcat, port = 8080, host = "0.0.0.0", module = Application::module)
-        .start(wait = true)
+fun main(args: Array<String>) {
+    embeddedServer(Tomcat, commandLineEnvironment(args)).start(wait = true)
 }
 
 fun Application.module() {
+
     install(Routing) {
         authController()
     }
