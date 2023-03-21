@@ -6,6 +6,7 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.routing.post
+import jp.matsuura.model.JwtInfo
 import jp.matsuura.model.response.ErrorResponse
 import jp.matsuura.model.request.LoginRequest
 import jp.matsuura.model.error.LoginErrorType
@@ -20,6 +21,14 @@ fun Routing.authController() {
 
     val authService by inject<AuthService>()
 
+    val environment = environment ?: return
+
+    val secret = environment.config.property("jwt.secret").getString()
+    val issuer = environment.config.property("jwt.issuer").getString()
+    val audience = environment.config.property("jwt.audience").getString()
+
+    val jwtInfo = JwtInfo(secret = secret, issuer = issuer, audience = audience)
+
     post("/auth/login") {
         val request = call.receive<LoginRequest>()
         val email = request.email
@@ -27,6 +36,7 @@ fun Routing.authController() {
         val result = authService.login(
             email = email,
             password = password,
+            jwtInfo = jwtInfo,
         )
         when (result) {
             is Result.Success -> {
@@ -62,6 +72,7 @@ fun Routing.authController() {
         val result = authService.register(
             email = email,
             password = password,
+            jwtInfo = jwtInfo,
         )
         when (result) {
             is Result.Success -> {

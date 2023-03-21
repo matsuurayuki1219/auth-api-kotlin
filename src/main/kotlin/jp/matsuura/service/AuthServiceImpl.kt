@@ -1,13 +1,15 @@
 package jp.matsuura.service
 
 import jp.matsuura.data.entity.Token
-import jp.matsuura.data.entity.Tokens
 import jp.matsuura.data.entity.User
 import jp.matsuura.data.repository.AuthRepository
+import jp.matsuura.model.JwtInfo
 import jp.matsuura.model.response.AuthResponse
 import jp.matsuura.model.error.LoginErrorType
 import jp.matsuura.model.error.RegisterErrorType
 import jp.matsuura.utility.CommonUtils
+import jp.matsuura.utility.Const
+import jp.matsuura.utility.JwtUtils
 import jp.matsuura.utility.Result
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.joda.time.DateTime
@@ -21,6 +23,7 @@ class AuthServiceImpl : AuthService, KoinComponent {
     override fun login(
         email: String,
         password: String,
+        jwtInfo: JwtInfo,
         ): Result<AuthResponse, LoginErrorType> {
 
         val user = authRepository.findByEmail(email = email)
@@ -30,10 +33,17 @@ class AuthServiceImpl : AuthService, KoinComponent {
             return Result.Failure(error = LoginErrorType.WrongPassword)
         }
 
+        val accessToken = JwtUtils.generateAccessToken(
+            audience = jwtInfo.audience,
+            issuer = jwtInfo.issuer,
+            email = email,
+            secret = jwtInfo.secret,
+        )
+
         val response = AuthResponse(
-            message = "OK",
-            accessToken = "test",
-            refreshToken = "test"
+            message = Const.OK,
+            accessToken = accessToken,
+            refreshToken = "refreshToken"
         )
         return Result.Success(value = response)
     }
@@ -41,6 +51,7 @@ class AuthServiceImpl : AuthService, KoinComponent {
     override fun register(
         email: String,
         password: String,
+        jwtInfo: JwtInfo,
         ): Result<AuthResponse, RegisterErrorType> {
 
         if (!CommonUtils.checkValidationOfEmail(email = email)) {
@@ -55,8 +66,14 @@ class AuthServiceImpl : AuthService, KoinComponent {
             return Result.Failure(error = RegisterErrorType.AlreadyExistedUser)
         }
 
-        val accessToken = "test"
-        val refreshToken = "test"
+        val accessToken = JwtUtils.generateAccessToken(
+            audience = jwtInfo.audience,
+            issuer = jwtInfo.issuer,
+            email = email,
+            secret = jwtInfo.secret,
+        )
+
+        val refreshToken = "refreshToken"
 
         val insertUserData = User(
             email = email,
@@ -78,7 +95,7 @@ class AuthServiceImpl : AuthService, KoinComponent {
         }
 
         val response = AuthResponse(
-            message = "OK",
+            message = Const.OK,
             accessToken = accessToken,
             refreshToken = refreshToken,
         )
