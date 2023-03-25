@@ -21,18 +21,7 @@ fun Routing.userController() {
 
     authenticate("auth-jwt") {
         get("/user/me") {
-            val principal = call.principal<JWTPrincipal>() ?: return@get
-            val expiresAt = principal.expiresAt?.time
-            if (!expiresAt.checkExpiration()) {
-                val code = MessageCode.ES00_001
-                val message = MessageMap[code] ?: ""
-                call.respond(
-                    ErrorResponse(
-                        code = code,
-                        message = message,
-                    )
-                )
-            }
+            val principal = checkNotNull(call.principal<JWTPrincipal>())
             val email = principal.payload.getClaim("email").asString()
             when (val result = userService.getInfo(email = email)) {
                 is Result.Success -> {
@@ -56,9 +45,4 @@ fun Routing.userController() {
         }
     }
 
-}
-
-private fun Long?.checkExpiration(): Boolean {
-    if (this == null) return false
-    return minus(System.currentTimeMillis()) > 0
 }

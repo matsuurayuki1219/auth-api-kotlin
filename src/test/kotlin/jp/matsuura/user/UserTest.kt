@@ -106,7 +106,12 @@ class UserTest {
             }
         }
         val response = client.get("/user/me")
+        val body = response.body<ErrorResponse>()
+        val correctCode = MessageCode.ES00_001
+        val correctMessage = MessageCode.MessageMap[correctCode]
         TestCase.assertEquals(HttpStatusCode.Unauthorized, response.status)
+        TestCase.assertEquals(correctCode, body.code)
+        TestCase.assertEquals(correctMessage, body.message)
     }
 
     @Test
@@ -116,9 +121,17 @@ class UserTest {
                 header("Authorization", "")
                 contentType(ContentType.Application.Json)
             }
+            install(ContentNegotiation) {
+                jackson()
+            }
         }
         val response = client.get("/user/me")
+        val body = response.body<ErrorResponse>()
+        val correctCode = MessageCode.ES00_001
+        val correctMessage = MessageCode.MessageMap[correctCode]
         TestCase.assertEquals(HttpStatusCode.Unauthorized, response.status)
+        TestCase.assertEquals(correctCode, body.code)
+        TestCase.assertEquals(correctMessage, body.message)
     }
 
     @Test
@@ -139,6 +152,11 @@ class UserTest {
             }
         }
         val response = client.get("/user/me")
+        val body = response.body<ErrorResponse>()
+        val correctCode = MessageCode.ES00_001
+        val correctMessage = MessageCode.MessageMap[correctCode]
         TestCase.assertEquals(HttpStatusCode.Unauthorized, response.status)
+        TestCase.assertEquals(correctCode, body.code)
+        TestCase.assertEquals(correctMessage, body.message)
     }
 }

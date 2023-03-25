@@ -21,7 +21,7 @@ object MessageCode {
 
     val MessageMap = mapOf(
         // Common
-        ES00_001 to "アクセストークンの有効期限切れです。",
+        ES00_001 to "アクセストークンが不正です。",
 
         // Login
         ES01_001 to "該当のユーザは存在しません。",

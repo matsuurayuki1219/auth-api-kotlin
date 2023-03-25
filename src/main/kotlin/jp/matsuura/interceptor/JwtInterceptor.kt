@@ -7,7 +7,8 @@ import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import io.ktor.server.response.*
-import jp.matsuura.model.User
+import jp.matsuura.model.response.ErrorResponse
+import jp.matsuura.utility.MessageCode
 
 fun AuthenticationConfig.jwtInterceptor(environment: ApplicationEnvironment) {
 
@@ -27,16 +28,32 @@ fun AuthenticationConfig.jwtInterceptor(environment: ApplicationEnvironment) {
         // validations on the JWT payload.
         validate { credential ->
             val email = credential.payload.getClaim("email").asString()
-            if (email != "") {
-                JWTPrincipal(credential.payload)
-            } else {
+            val expiredAt = credential.payload.expiresAt.time
+            val isExpired = expiredAt.checkWhetherExpired()
+            if (isExpired) {
                 null
+            } else if (email.isEmpty()) {
+                null
+            } else {
+                JWTPrincipal(credential.payload)
             }
         }
 
         //　if authentication fails.
         challenge { _, _ ->
-            call.respond(HttpStatusCode.Unauthorized, "Token is not valid or has expired")
+            val code = MessageCode.ES00_001
+            val message = MessageCode.MessageMap[code] ?: ""
+            call.respond(
+                HttpStatusCode.Unauthorized,
+                ErrorResponse(
+                    code = code,
+                    message = message,
+                )
+            )
         }
     }
+}
+
+private fun Long.checkWhetherExpired(): Boolean {
+    return (this - System.currentTimeMillis()) < 0
 }
