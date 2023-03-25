@@ -10,7 +10,7 @@ import org.junit.Test
 
 class ApplicationTest {
     @Test
-    fun successLogin() = testApplication {
+    fun test_sample() = testApplication {
         val response = client.get("/")
         TestCase.assertEquals(HttpStatusCode.OK, response.status)
         TestCase.assertEquals("Hello World!!", response.bodyAsText())
