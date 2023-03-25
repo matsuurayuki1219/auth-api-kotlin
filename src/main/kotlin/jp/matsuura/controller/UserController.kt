@@ -48,7 +48,7 @@ fun Routing.userController() {
                         GetUserErrorType.NotExistUser -> {
                             val code = MessageCode.ES03_001
                             val message = MessageMap[code] ?: ""
-                            call.respond(HttpStatusCode.InternalServerError, ErrorResponse(code = code, message = message))
+                            call.respond(HttpStatusCode.NotFound, ErrorResponse(code = code, message = message))
                         }
                     }
                 }
