@@ -1,4 +1,4 @@
-package jp.matsuura.data.repository
+package jp.matsuura.data.repository.auth
 
 import jp.matsuura.data.entity.User
 

@@ -12,7 +12,7 @@ import jp.matsuura.model.request.LoginRequest
 import jp.matsuura.model.error.LoginErrorType
 import jp.matsuura.model.error.RegisterErrorType
 import jp.matsuura.model.request.RegisterRequest
-import jp.matsuura.service.AuthService
+import jp.matsuura.service.auth.AuthService
 import jp.matsuura.utility.MessageCode
 import org.koin.ktor.ext.inject
 import jp.matsuura.utility.Result

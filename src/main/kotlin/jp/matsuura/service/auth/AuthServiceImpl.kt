@@ -1,7 +1,7 @@
-package jp.matsuura.service
+package jp.matsuura.service.auth
 
 import jp.matsuura.data.entity.User
-import jp.matsuura.data.repository.AuthRepository
+import jp.matsuura.data.repository.auth.AuthRepository
 import jp.matsuura.model.JwtInfo
 import jp.matsuura.model.response.AuthResponse
 import jp.matsuura.model.error.LoginErrorType

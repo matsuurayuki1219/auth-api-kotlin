@@ -1,4 +1,4 @@
-package jp.matsuura.service
+package jp.matsuura.service.auth
 
 import jp.matsuura.model.JwtInfo
 import jp.matsuura.model.response.AuthResponse
