@@ -41,4 +41,21 @@ object JwtUtils {
             .sign(Algorithm.HMAC256(secret))
 
     }
+
+    fun generateAccessTokenForTest(
+        audience: String,
+        issuer: String,
+        email: String,
+        secret: String,
+        expiredDuration: Long,
+    ): String {
+
+        return JWT.create()
+            .withAudience(audience)
+            .withIssuer(issuer)
+            .withClaim("email", email)
+            .withClaim("tokenType", "accessToken")
+            .withExpiresAt(Date(System.currentTimeMillis() + expiredDuration))
+            .sign(Algorithm.HMAC256(secret))
+    }
 }
