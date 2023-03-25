@@ -105,7 +105,7 @@ class RegisterTest {
             )
         }
         val body = response.body<ErrorResponse>()
-        val correctCode = MessageCode.ES02_002
+        val correctCode = MessageCode.ES02_003
         val correctMessage = MessageCode.MessageMap[correctCode]
         TestCase.assertEquals(HttpStatusCode.BadRequest, response.status)
         TestCase.assertEquals(correctCode, body.code)
