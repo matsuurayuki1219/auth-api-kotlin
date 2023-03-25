@@ -10,6 +10,7 @@ import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.routing.*
 import io.ktor.server.tomcat.*
 import jp.matsuura.controller.authController
+import jp.matsuura.controller.testController
 import jp.matsuura.controller.userController
 import jp.matsuura.data.Migration
 import jp.matsuura.di.authRepositoryModule
@@ -32,6 +33,7 @@ fun Application.module() {
     }
 
     install(Routing) {
+        testController()
         authController()
         userController()
     }
