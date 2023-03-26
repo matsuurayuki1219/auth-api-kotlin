@@ -2,7 +2,7 @@ openapi: 3.0.0
 
 info:
   version: 1.0.0
-  title: auth-api-ktor∏
+  title: auth-api-ktor
   description: auth-api-ktorのAPIドキュメントです。
 
 servers:
