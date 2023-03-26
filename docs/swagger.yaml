@@ -10,9 +10,9 @@ servers:
     description: "本番環境"
 
 tags:
-  - name: "auth"
+  - name: auth
     description: 認証用API
-  - name: "users"
+  - name: users
     description: ユーザ情報取得用API
 
 paths:
@@ -20,3 +20,12 @@ paths:
     $ref: paths/login.yaml
   /auth/register:
     $ref: paths/register.yaml
+  /user/me:
+    $ref: paths/get_user.yaml
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
