@@ -1,0 +1,12 @@
+type: object
+required:
+  - code
+  - message
+properties:
+  code:
+    type: string
+  message:
+    type: string
+example:
+  code: "ES00_001"
+  message: "メールアドレスが不正です。"

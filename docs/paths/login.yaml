@@ -1,0 +1,40 @@
+post:
+  summary: ユーザ認証用API
+  tags: 
+    - auth
+  deprecated: false
+  requestBody:
+    description: "ユーザ登録情報"
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemes/AuthRequest.yaml
+
+  responses:
+    "200":
+      description: 成功
+      content:
+        application/json:
+          schema:
+            $ref: ../components/responses/AuthResponse.yaml
+    "401":
+      description: 失敗（パスワード誤り）
+      content: 
+        application/json:
+          schema: 
+            $ref: ../components/responses/ErrorResponse.yaml
+          example:
+              code: "ES02_001"
+              message: "パスワードが間違っています。"
+
+    "404":
+      description: 失敗（ユーザ未登録）
+      content: 
+        application/json:
+          schema: 
+            $ref: ../components/responses/ErrorResponse.yaml
+          example:
+            value:
+              code: "ES02_004"
+              message: "ユーザ登録がされていません。"

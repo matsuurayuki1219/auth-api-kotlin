@@ -1,0 +1,46 @@
+post:
+      summary: ユーザ登録用API
+      tags: ["auth"]
+      deprecated: false
+      requestBody:
+        description: "ユーザ登録情報"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ../components/schemes/AuthRequest.yaml
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: ../components/responses/AuthResponse.yaml
+        "400":
+          description: 失敗（バリデーションエラー）
+          content:
+            application/json:
+              schema:
+                $ref: ../components/responses/ErrorResponse.yaml
+              examples:
+                email_validation_error:
+                  summary: "メールアドレスが不正の場合"
+                  value:
+                    code: "ES00_001"
+                    message: "メールアドレスが不正です。"
+                password_validation_error:
+                  summary: "パスワードが不正の場合"
+                  value:
+                    code: "ES00_002"
+                    message: "パスワードが不正です。"
+        "409":
+          description: 失敗（既に登録済み）
+          content: 
+            application/json:
+              schema: 
+                $ref: ../components/responses/ErrorResponse.yaml
+                value:
+                  code: "ES02_0034"
+                  message: "既にユーザ登録されています。"
+    
+ 
