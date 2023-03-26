@@ -25,8 +25,8 @@ post:
           schema: 
             $ref: ../components/responses/ErrorResponse.yaml
           example:
-              code: "ES02_001"
-              message: "パスワードが間違っています。"
+              code: "ES01_003"
+              message: "パスワードが誤っています。"
 
     "404":
       description: 失敗（ユーザ未登録）
@@ -36,5 +36,5 @@ post:
             $ref: ../components/responses/ErrorResponse.yaml
           example:
             value:
-              code: "ES02_004"
-              message: "ユーザ登録がされていません。"
+              code: "ES01_001"
+              message: "該当のユーザは存在しません。"
