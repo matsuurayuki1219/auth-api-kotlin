@@ -1,0 +1,15 @@
+type: object
+required:
+  - message
+  - access_token
+  - refresh_token
+properties:
+  message:
+    type: string
+    example: "OK"
+  access_token:
+    type: string
+    example: "XXXX"
+  refresh_token:
+    type: string
+    example: "XXXX"
