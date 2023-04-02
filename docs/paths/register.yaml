@@ -26,12 +26,12 @@ post:
                 email_validation_error:
                   summary: "メールアドレスが不正の場合"
                   value:
-                    code: "ES00_001"
+                    code: "ES02_002"
                     message: "メールアドレスが不正です。"
                 password_validation_error:
                   summary: "パスワードが不正の場合"
                   value:
-                    code: "ES00_002"
+                    code: "ES01_003"
                     message: "パスワードが不正です。"
         "409":
           description: 失敗（既に登録済み）
@@ -40,7 +40,7 @@ post:
               schema: 
                 $ref: ../components/responses/ErrorResponse.yaml
                 value:
-                  code: "ES02_0034"
-                  message: "既にユーザ登録されています。"
+                  code: "ES02_001"
+                  message: "すでにユーザ登録されています。"
     
  

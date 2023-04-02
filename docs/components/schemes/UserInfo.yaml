@@ -1,0 +1,14 @@
+type: object
+properties:
+  email:
+    description: メールアドレス
+    type: string
+    example: 'test@example.com'
+  password:
+    description: パスワード
+    type: string
+    example: 'pass9999'
+
+required:
+  - email
+  - password

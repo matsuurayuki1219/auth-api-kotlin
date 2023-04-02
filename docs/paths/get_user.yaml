@@ -1,0 +1,24 @@
+get:
+  summary: ユーザ認証用API
+  tags: 
+    - users
+  deprecated: false
+  security:
+      - Bearer: []
+
+  responses:
+    "200":
+      description: 成功
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemes/UserInfo.yaml
+    "401":
+      description: 失敗（アクセストークン不正）
+      content: 
+        application/json:
+          schema: 
+            $ref: ../components/responses/ErrorResponse.yaml
+          example:
+              code: "ES00_001"
+              message: "アクセストークンが不正です。"
